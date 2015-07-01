@@ -10,3 +10,5 @@ All Notable changes to `route-generator-plugin` will be documented in this file
 - License
 - Contributing document
 - Editor Config
+- PHP Unit distribution file
+- PHPUnit composer script
