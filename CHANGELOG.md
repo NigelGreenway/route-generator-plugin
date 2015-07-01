@@ -1,6 +1,6 @@
 # Changelog
 
-All Notable changes to `:package_name` will be documented in this file
+All Notable changes to `route-generator-plugin` will be documented in this file
 
 ## v.0.0.1
 
