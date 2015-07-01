@@ -7,3 +7,4 @@ All Notable changes to `:package_name` will be documented in this file
 ### Added
 - Initial Composer file
 - Change log
+- License
