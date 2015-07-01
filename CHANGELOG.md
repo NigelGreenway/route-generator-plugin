@@ -9,3 +9,4 @@ All Notable changes to `:package_name` will be documented in this file
 - Change log
 - License
 - Contributing document
+- Editor Config
