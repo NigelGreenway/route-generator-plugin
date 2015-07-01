@@ -15,3 +15,4 @@ All Notable changes to `route-generator-plugin` will be documented in this file
 - Route Generator
 - Exceptions
 - Tests
+- .gitattributes file
