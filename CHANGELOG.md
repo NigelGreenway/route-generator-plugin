@@ -16,3 +16,4 @@ All Notable changes to `route-generator-plugin` will be documented in this file
 - Exceptions
 - Tests
 - .gitattributes file
+- Readme
