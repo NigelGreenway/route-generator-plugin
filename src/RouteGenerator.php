@@ -43,7 +43,6 @@ final class RouteGenerator
      * @param array  $parameters
      * @param bool   $absolute
      *
-     * @throws RouteDoesNotExistException
      * @throws MissingRouteParametersException
      *
      * @return string
