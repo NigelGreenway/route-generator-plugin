@@ -25,6 +25,9 @@ final class RouteGenerator
     /** @var array */
     private $routes;
 
+    /** @var string */
+    public static $regex = '#\{\w+\}#';
+
     /**
      * Class constructor
      *
@@ -65,7 +68,7 @@ final class RouteGenerator
 
         $route = implode('/', $elements);
 
-        if (preg_match_all('#\{\w+\}#', $route, $matches) > 0) {
+        if (preg_match_all(self::$regex, $route, $matches) > 0) {
             $arguments = array_map(function($arguments) {
                 return $arguments;
             }, $matches[0]);
