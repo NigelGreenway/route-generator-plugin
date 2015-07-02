@@ -1,0 +1,27 @@
+{
+    "name": "nigelgreenway/route-generator-plugin",
+    "description": "A route generation plugin for the League/Route package",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Nigel Greenway",
+            "email": "nigel_greenway@me.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Route\\Generator\\": "./src",
+            "Route\\Generator\\Test\\": "./tests"
+        }
+    },
+    "require": {
+        "league/route": "~1"
+    },
+    "require-dev": {
+      "phpunit/phpunit": "^4.7"
+    },
+    "scripts": {
+        "tests": "phpunit"
+    }
+}
