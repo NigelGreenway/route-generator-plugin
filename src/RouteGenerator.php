@@ -16,7 +16,10 @@ namespace Route\Generator;
  */
 final class RouteGenerator
 {
+    /** const ABSOLUTE Return an absolute url */
     const ABSOLUTE = true;
+
+    /** const RELATIVE Return a relative url */
     const RELATIVE = false;
 
     /** @var array */
