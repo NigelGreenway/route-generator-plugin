@@ -34,7 +34,8 @@ class RouteGeneratorTest extends PHPUnit_Framework_TestCase
                     'pattern'    => '/hello/{name}',
                     'controller' => function($name) {
                         echo 'Hello '.$name;
-                    }
+                    },
+                    'method'     => ['GET'],
                 ],
             ],
         ];
