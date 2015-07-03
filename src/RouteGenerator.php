@@ -99,6 +99,12 @@ final class RouteGenerator
      */
     private function findRoute($alias)
     {
+        // If we have a non modular configuration, check if the key exists
+        if (array_key_exists($alias, $this->routes)) {
+            return $this->routes[$alias];
+        }
+
+        // If we have a modular configuration, check if the key exists
         foreach($this->routes as $modules) {
             if (array_key_exists($alias, $modules)) {
                 return $modules[$alias];
