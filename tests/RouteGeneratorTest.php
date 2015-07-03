@@ -116,6 +116,19 @@ class RouteGeneratorTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('/hello/Timmy+Mallet', $route);
     }
 
+    /**
+     * @covers Route\Generator\RouteGenerator::generate
+     * @covers Route\Generator\RouteGenerator::findRoute
+     */
+    public function test_route_is_found_without_existing_in_a_module()
+    {
+        $generator = new RouteGenerator($this->config['hello_module']);
+
+        $route = $generator->generate('hello_world');
+
+        $this->assertEquals('/hello/world', $route);
+    }
+
     public function tearDown()
     {
         $this->config
