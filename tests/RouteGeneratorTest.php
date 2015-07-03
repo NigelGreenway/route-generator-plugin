@@ -34,7 +34,8 @@ class RouteGeneratorTest extends PHPUnit_Framework_TestCase
                     'pattern'    => '/hello/{name}',
                     'controller' => function($name) {
                         echo 'Hello '.$name;
-                    }
+                    },
+                    'method'     => ['GET'],
                 ],
             ],
         ];
@@ -76,6 +77,7 @@ class RouteGeneratorTest extends PHPUnit_Framework_TestCase
     /**
      * @covers Route\Generator\RouteGenerator::__construct
      * @covers Route\Generator\RouteGenerator::generate
+     * @covers Route\Generator\RouteGenerator::findRoute
      */
     public function test_static_route_has_been_generated_correctly()
     {
@@ -106,6 +108,11 @@ class RouteGeneratorTest extends PHPUnit_Framework_TestCase
         $generator->generate('hello_person', ['id' => 1]);
     }
 
+    /**
+     * @covers Route\Generator\RouteGenerator::__construct
+     * @covers Route\Generator\RouteGenerator::generate
+     * @covers Route\Generator\RouteGenerator::findRoute
+     */
     public function test_dynamic_route_with_correct_parameters()
     {
         $generator = new RouteGenerator($this->config);
@@ -113,6 +120,20 @@ class RouteGeneratorTest extends PHPUnit_Framework_TestCase
         $route = $generator->generate('hello_person', ['name' => 'Timmy Mallet']);
 
         $this->assertEquals('/hello/Timmy+Mallet', $route);
+    }
+
+    /**
+     * @covers Route\Generator\RouteGenerator::__construct
+     * @covers Route\Generator\RouteGenerator::generate
+     * @covers Route\Generator\RouteGenerator::findRoute
+     */
+    public function test_route_is_found_without_existing_in_a_module()
+    {
+        $generator = new RouteGenerator($this->config['hello_module']);
+
+        $route = $generator->generate('hello_world');
+
+        $this->assertEquals('/hello/world', $route);
     }
 
     public function tearDown()

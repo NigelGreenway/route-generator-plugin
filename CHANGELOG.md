@@ -2,6 +2,11 @@
 
 All Notable changes to `route-generator-plugin` will be documented in this file
 
+## v0.0.2
+
+- Fix test with missing array key
+- Fix issue with non modular route configuration
+
 ## v.0.0.1
 
 ### Added
