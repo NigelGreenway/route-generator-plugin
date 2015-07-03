@@ -57,9 +57,12 @@ final class RouteGenerator
     ){
         $route = $this->findRoute($alias);
 
-        $elements = array_map(function($element) use ($parameters) {
+        $elements = array_map(function($element) use ($alias, $parameters) {
             foreach ($parameters as $key => $value) {
                 if (preg_match('#\{'.$key.'\}#', $element, $matches)) {
+                    if (empty($value)) {
+                        throw new MissingRouteParametersException($alias);
+                    }
                     return preg_replace('#\{'.$key.'\}#', urlencode($value), $matches[0]);
                 }
             }
