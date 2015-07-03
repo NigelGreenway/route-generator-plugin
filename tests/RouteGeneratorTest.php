@@ -136,6 +136,26 @@ class RouteGeneratorTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('/hello/world', $route);
     }
 
+    /**
+     * @expectedException Route\Generator\MissingRouteParametersException
+     */
+    public function test_exception_thrown_when_passed_an_empty_value()
+    {
+        $generator = new RouteGenerator($this->config);
+
+        $generator->generate('hello_person', ['name' => '']);
+    }
+
+    /**
+     * @expectedException Route\Generator\MissingRouteParametersException
+     */
+    public function test_exception_thrown_when_passed_a_null_value()
+    {
+        $generator = new RouteGenerator($this->config);
+
+        $generator->generate('hello_person', ['name' => null]);
+    }
+
     public function tearDown()
     {
         $this->config
