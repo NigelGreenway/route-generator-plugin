@@ -16,7 +16,8 @@
         }
     },
     "require": {
-        "league/route": "~1"
+        "league/route": "~1",
+        "twig/twig": "^1.18"
     },
     "require-dev": {
       "phpunit/phpunit": "^4.7"
