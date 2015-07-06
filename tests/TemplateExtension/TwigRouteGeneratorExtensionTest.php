@@ -26,6 +26,14 @@ class TwigRouteGeneratorExtensionTest extends PHPUnit_Framework_TestCase
         $_SERVER['HTTP_HOST'] = 'testallthethings.com';
         $this
             ->routes = [
+                'exposed_route_a' => [
+                    'pattern'    => '/users/search',
+                    'controller' => function() {
+                        echo 'This is a static route';
+                    },
+                    'method'     => ['GET'],
+                    'expose'     => true,
+                ],
                 'module' => [
                     'static_route' => [
                         'pattern'    => '/users/search',
@@ -40,6 +48,14 @@ class TwigRouteGeneratorExtensionTest extends PHPUnit_Framework_TestCase
                             echo 'Your user id is '.$id;
                         },
                         'method'     => ['GET'],
+                    ],
+                    'exposed_route_b' => [
+                        'pattern'    => '/users/search',
+                        'controller' => function() {
+                            echo 'This is a static route';
+                        },
+                        'method'     => ['GET'],
+                        'expose'     => true,
                     ],
                 ],
             ];
@@ -148,6 +164,39 @@ class TwigRouteGeneratorExtensionTest extends PHPUnit_Framework_TestCase
             );
 
         $this->assertContains('http://testallthethings.com/users/1', $template);
+    }
+
+    /**
+     * Route\Generator\TemplateExtension\TwigRouteGeneratorExtension::getRoutes
+     */
+    public function test_all_exposed_routes_are_in_json_array()
+    {
+        $template = json_decode(
+            $this
+                ->twig
+                ->render('@Fixture/fetch_routes.txt.twig'),
+            true
+        );
+
+        $this->assertTrue(array_key_exists('exposed_route_a', $template));
+        $this->assertTrue(array_key_exists('exposed_route_b', $template));
+        $this->assertCount(2, $template);
+    }
+
+    /**
+     * Route\Generator\TemplateExtension\TwigRouteGeneratorExtension::getRoutes
+     */
+    public function test_non_exposed_routes_are_not_in_json_array()
+    {
+        $template = json_decode(
+            $this
+                ->twig
+                ->render('@Fixture/fetch_routes.txt.twig'),
+            true
+        );
+
+        $this->assertFalse(array_key_exists('static_route', $template));
+        $this->assertFalse(array_key_exists('dynamic_route', $template));
     }
 
     public function tearDown()

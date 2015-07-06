@@ -42,6 +42,7 @@ class TwigRouteGeneratorExtension extends Twig_Extension
     {
         return [
             new \Twig_SimpleFunction('route', [$this, 'generate']),
+            new \Twig_SimpleFunction('getRoutes', [$this, 'getRoutes']),
         ];
     }
 
@@ -62,6 +63,20 @@ class TwigRouteGeneratorExtension extends Twig_Extension
         return $this
             ->generator
             ->generate($alias, $parameters, $absolute);
+    }
+
+    /**
+     * Get all the exposed routes
+     *
+     * @return array
+     */
+    public function getRoutes()
+    {
+        return json_encode(
+            $this
+                ->generator
+                ->getExposedRoutes()
+        );
     }
 
     /**

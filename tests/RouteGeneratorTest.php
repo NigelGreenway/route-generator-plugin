@@ -22,6 +22,11 @@ class RouteGeneratorTest extends PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->config = [
+            'exposed_route_at_root' => [
+                'pattern' => '/exposed/route',
+                'method'  => ['GET'],
+                'expose' => true,
+            ],
             'hello_module' => [
                 'hello_world' => [
                     'pattern'    => '/hello/world',
@@ -37,6 +42,14 @@ class RouteGeneratorTest extends PHPUnit_Framework_TestCase
                     },
                     'method'     => ['GET'],
                 ],
+                'exposed_route_in_module' => [
+                    'pattern'    => '/module/exposed/route',
+                    'controller' => function($name) {
+                        echo 'Hello new person, '.$name;
+                    },
+                    'method'     => ['GET'],
+                    'expose'     => true,
+                ],
             ],
         ];
 
@@ -44,6 +57,17 @@ class RouteGeneratorTest extends PHPUnit_Framework_TestCase
         $this->router->setStrategy(new UriStrategy);
 
         foreach ($this->config as $collection) {
+
+            if (array_key_exists('pattern', $collection) === true) {
+                $route = $collection;
+                $this->router->addRoute(
+                    $route['method'],
+                    $route['pattern'],
+                    $route['controller']
+                );
+                continue;
+            }
+
             foreach ($collection as $route) {
                 $this->router->addRoute(
                     $route['method'],
@@ -154,6 +178,27 @@ class RouteGeneratorTest extends PHPUnit_Framework_TestCase
         $generator = new RouteGenerator($this->config);
 
         $generator->generate('hello_person', ['name' => null]);
+    }
+
+    /**
+     * @covers Route\Generator\RouteGenerator::getExposedRoutes
+     */
+    public function test_exposed_route_is_in_array()
+    {
+        $generator = new RouteGenerator($this->config);
+
+        $this->assertTrue(array_key_exists('exposed_route_at_root', $generator->getExposedRoutes()));
+        $this->assertTrue(array_key_exists('exposed_route_in_module', $generator->getExposedRoutes()));
+        $this->assertCount(2, $generator->getExposedRoutes());
+    }
+
+    /**
+     * @covers Route\Generator\RouteGenerator::getExposedRoutes
+     */
+    public function test_non_exposed_route_is_not_in_array()
+    {
+        $generator = new RouteGenerator($this->config);
+        $this->assertFalse(array_key_exists('hello_person', $generator->getExposedRoutes()));
     }
 
     public function tearDown()

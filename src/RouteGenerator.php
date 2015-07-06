@@ -92,6 +92,63 @@ final class RouteGenerator
     }
 
     /**
+     * Get the routing configuration with routes that
+     * are set as exposed
+     *
+     * @return array
+     */
+    public function getExposedRoutes()
+    {
+        $exposedRoutes = [];
+
+        foreach ($this->routes as $key => $module) {
+            if (
+                array_key_exists('pattern', $module) === true
+                && $this->routeIsExposed($module)    === true
+            ) {
+                preg_match('#\{\w+\}#', $module['pattern'], $parameters);
+                $exposedRoutes[$key] = [
+                    'pattern'    => $module['pattern'],
+                    'parameters' => $parameters,
+                ];
+                continue;
+            }
+
+            foreach ($module as $alias => $routeConfig) {
+                if ($this->routeIsExposed($routeConfig) === true) {
+                    preg_match('#\{\w+\}#', $routeConfig['pattern'], $parameters);
+                    $exposedRoutes[$alias] = [
+                        'pattern'    => $routeConfig['pattern'],
+                        'parameters' => $parameters,
+                    ];
+                }
+            }
+        }
+
+        return $exposedRoutes;
+    }
+
+    /**
+     * Check if a route is able to be exposed to the outside
+     * world
+     *
+     * @param array $routeConfig
+     *
+     * @return bool
+     */
+    private function routeIsExposed($routeConfig)
+    {
+        if (
+            isset($routeConfig['expose']) === true
+            && $routeConfig['expose'] === true
+        ) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * Search for the alias name in the config property
      *
      * @param $alias
